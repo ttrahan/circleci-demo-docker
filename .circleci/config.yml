@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  aws-ecr:  ttrahan/aws-ecr@dev:alpha
+  aws-cli: ttrahan/aws-cli@dev:alpha
+  aws-ecr: ttrahan/aws-ecr@dev:alpha
 
 jobs:
   build:
@@ -71,6 +72,11 @@ jobs:
             docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             # docker push circleci/cci-demo-docker:$TAG
             docker push $DOCKER_ACCT/cci-demo-docker:$TAG
+
+      - aws-cli/install
+
+      - aws-cli/configure:
+          region: us-west-2
 
       - aws-ecr/ecr-login:
           region: us-west-2
