@@ -1,7 +1,7 @@
-version: 2
+version: 2.1
 
 orbs:
-  - aws-ecs:  ttrahan/aws-ecs@dev:alpha
+  aws-ecs:  ttrahan/aws-ecr@dev:alpha
 
 jobs:
   build:
@@ -80,9 +80,8 @@ jobs:
           path: /tmp/test-results
 
 workflows:
-  build:
+  run_build:
     jobs:
       - build:
-          context: 
-            - ttrahan
+          context: ttrahan
 
