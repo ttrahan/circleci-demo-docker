@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecs:  ttrahan/aws-ecr@dev:alpha
+  aws-ecr:  ttrahan/aws-ecr@dev:alpha
 
 jobs:
   build:
@@ -71,6 +71,15 @@ jobs:
             docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             # docker push circleci/cci-demo-docker:$TAG
             docker push $DOCKER_ACCT/cci-demo-docker:$TAG
+
+      - aws-ecr/ecr-login:
+          region: us-west-2
+
+      - aws-ecr/push-image:
+          account-url: 304170260410.dkr.ecr.us-west-2.amazonaws.com 
+          repo: ttrahan-test
+          tag: latest
+
 
       - store_artifacts:
           path: /tmp/test-results
