@@ -73,20 +73,6 @@ jobs:
             # docker push circleci/cci-demo-docker:$TAG
             docker push $DOCKER_ACCT/cci-demo-docker:$TAG
 
-      - aws-cli/install
-
-      - aws-cli/configure:
-          region: us-west-2
-
-      - aws-ecr/ecr-login:
-          region: us-west-2
-
-      - aws-ecr/push-image:
-          account-url: 304170260410.dkr.ecr.us-west-2.amazonaws.com 
-          repo: ttrahan-test
-          tag: latest
-
-
       - store_artifacts:
           path: /tmp/test-results
           destination: raw-test-output
@@ -97,6 +83,12 @@ jobs:
 workflows:
   run_build:
     jobs:
-      - build:
+      - build
+      - aws-ecr/push_image:
           context: ttrahan
+          region: us-west-2
+          account-url: 304170260410.dkr.ecr.us-west-2.amazonaws.com 
+          repo: ttrahan-test
+          tag: latest
+
 
