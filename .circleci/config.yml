@@ -85,6 +85,7 @@ workflows:
     jobs:
       - build
       - aws-ecr/push_image:
+          requires: build
           context: ttrahan
           region: us-west-2
           account-url: 304170260410.dkr.ecr.us-west-2.amazonaws.com 
