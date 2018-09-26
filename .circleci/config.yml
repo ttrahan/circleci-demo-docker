@@ -81,7 +81,7 @@ jobs:
           path: /tmp/test-results
 
 workflows:
-  run_build:
+  build_and_push_image:
     jobs:
       - build
       - aws-ecr/push_image:
