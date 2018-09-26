@@ -1,7 +1,6 @@
 version: 2.1
 
 orbs:
-  aws-cli: ttrahan/aws-cli@dev:alpha
   aws-ecr: ttrahan/aws-ecr@dev:alpha
 
 jobs:
@@ -25,7 +24,7 @@ jobs:
       - run:
           name: Waiting for Postgres to be ready
           command: |
-            for i in `seq 1 15`;
+            for i in `seq 1 20`;
             do
               nc -z localhost 5432 && echo Success && exit 0
               echo -n .
@@ -84,11 +83,13 @@ workflows:
   build_and_push_image:
     jobs:
       - build
-      - aws-ecr/push_image:
+      - aws-ecr/build_and_push_image:
           requires: 
             - build
+          build-command: make
           context: ttrahan
           region: us-west-2
+          build-command: make
           account-url: 304170260410.dkr.ecr.us-west-2.amazonaws.com 
           repo: ttrahan-test
           tag: orb.${CIRCLE_BUILD_NUM}
